@@ -8,7 +8,7 @@ import uuid
 from pathlib import Path
 
 import aiofiles
-from fastapi import APIRouter, BackgroundTasks, HTTPException, UploadFile
+from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
 
 from app.config import UPLOADS_DIR
@@ -107,16 +107,22 @@ async def _run_job(
 
 # ── Endpoints ─────────────────────────────────────────────────────────────────
 
-@router.post("/upload", summary="Upload one or multiple PDFs for processing")
+@router.post("/upload", summary="Upload one or multiple documents for processing")
 async def upload_pdfs(
     background_tasks: BackgroundTasks,
-    files: list[UploadFile],
-    pdf_type: str = "selection_sheet",
+    files: list[UploadFile] = File(
+        ...,
+        description="One or more documents to process (PDF, DOC, DOCX, XLS, XLSX)",
+    ),
+    pdf_type: str = Form(
+        "selection_sheet",
+        description="Document type: 'selection_sheet' (default) or 'take_off'",
+    ),
 ) -> JSONResponse:
     """
-    Accept one or more PDF files and kick off the async processing pipeline.
+    Accept one or more documents and kick off the async processing pipeline.
 
-    - **files**: one or more PDF files (multipart/form-data)
+    - **files**: one or more files (PDF, DOC, DOCX, XLS, XLSX) via multipart/form-data
     - **pdf_type**: `selection_sheet` (default) or `take_off`
     """
     if pdf_type not in ("selection_sheet", "take_off"):
@@ -132,7 +138,7 @@ async def upload_pdfs(
     saved_paths: list[Path] = []
 
     for upload_file in files:
-        filename = Path(upload_file.filename or "upload.pdf").name
+        filename = Path(upload_file.filename or "upload.bin").name
         dest = UPLOADS_DIR / f"{job_id}_{filename}"
         await _save_upload(upload_file, dest)
         saved_paths.append(dest)
