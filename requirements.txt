@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+pdf2image
+Pillow
+litellm
+boto3
+weaviate-client
+aiofiles
