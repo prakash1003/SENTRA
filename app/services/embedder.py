@@ -1,5 +1,5 @@
 """
-embedder.py — Create text embeddings via Amazon Titan Embed Text V2 (LiteLLM → Bedrock).
+embedder.py — Create text embeddings via text-embedding-3-small (LiteLLM → OpenAI).
 
 Pages are embedded in parallel, controlled by MAX_CONCURRENT_EMBEDDINGS semaphore.
 All public functions are async.

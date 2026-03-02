@@ -45,7 +45,7 @@ async def _process_single_pdf(
     Run the full pipeline for a single PDF:
         1. Convert pages to images
         2. Extract structured data with Claude 3.7 Vision
-        3. Create embeddings with Titan Embed V2
+        3. Create embeddings with text-embedding-3-small via LiteLLM
         4. Store in Weaviate
 
     Returns a summary dict for the PDF.
@@ -65,7 +65,7 @@ async def _process_single_pdf(
         await save_extracted_json(pdf_name, extraction_results)
         summary["extracted_pages"] = len(extraction_results)
 
-        # 3. Embedding creation (parallel)
+        # 3. Embedding creation — text-embedding-3-small via LiteLLM (parallel)
         embedded_results = await embed_pages(extraction_results)
 
         # 4. Weaviate storage (parallel batch)

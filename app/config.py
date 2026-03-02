@@ -21,9 +21,9 @@ BEDROCK_MODEL: str = os.getenv(
 )
 EMBED_MODEL: str = os.getenv(
     "EMBED_MODEL",
-    "bedrock/amazon.titan-embed-text-v2:0",
+    "text-embedding-3-small",
 )
-EMBED_DIMENSIONS: int = int(os.getenv("EMBED_DIMENSIONS", "1024"))
+EMBED_DIMENSIONS: int = int(os.getenv("EMBED_DIMENSIONS", "1536"))
 
 # ── Concurrency ───────────────────────────────────────────────────────────────
 MAX_CONCURRENT_EXTRACTIONS: int = int(os.getenv("MAX_CONCURRENT_EXTRACTIONS", "5"))

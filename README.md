@@ -15,7 +15,8 @@ The service runs on **port 7861** and is designed for Ubuntu.
 
 - Ubuntu 20.04+
 - Python 3.10+
-- AWS account with Bedrock access (Claude 3.7 Sonnet + Titan Embed V2 enabled)
+- AWS account with Bedrock access (Claude 3.7 Sonnet enabled)
+- OpenAI API key (for `text-embedding-3-small`)
 
 ### 2. Configure Environment
 
@@ -105,7 +106,7 @@ SENTRA/
 │   ├── services/
 │   │   ├── pdf_processor.py     # pdf2image conversion (async)
 │   │   ├── extractor.py         # Claude 3.7 Vision extraction (async parallel)
-│   │   ├── embedder.py          # Titan Embed V2 (async parallel)
+│   │   ├── embedder.py          # text-embedding-3-small via LiteLLM (async parallel)
 │   │   └── weaviate_store.py    # Embedded Weaviate client & storage
 │   └── utils/
 │       └── helpers.py           # JSON flattening, lot/community detection
@@ -125,8 +126,9 @@ SENTRA/
 | `AWS_SECRET_ACCESS_KEY` | AWS secret key |
 | `AWS_REGION_NAME` | AWS region (default: `us-east-1`) |
 | `BEDROCK_MODEL` | Claude model ID via Bedrock |
-| `EMBED_MODEL` | Titan embed model ID via Bedrock |
-| `EMBED_DIMENSIONS` | Embedding dimensions (default: `1024`) |
+| `OPENAI_API_KEY` | OpenAI API key (for `text-embedding-3-small`) |
+| `EMBED_MODEL` | Embedding model ID (default: `text-embedding-3-small`) |
+| `EMBED_DIMENSIONS` | Embedding dimensions (default: `1536`) |
 | `MAX_CONCURRENT_EXTRACTIONS` | Max parallel LLM extraction calls |
 | `MAX_CONCURRENT_EMBEDDINGS` | Max parallel embedding calls |
 | `SERVER_PORT` | Server port (default: `7861`) |
